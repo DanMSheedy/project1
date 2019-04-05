@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
-void List( char *a, char b);
-
+void List( char *a, int pn); // a is the array, pl is the number of elements to print (from [0])
 
 
 int main()
@@ -14,18 +14,19 @@ int main()
     printf("                 \u2023 1.   Substitution Cipher                    \n");
     
     
-     char AlphabetASCII[] = {65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77,
-                                78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90};
-                            //ASCI A-Z Alphabet
-     List(AlphabetASCII, 0);
-     return 0;
+    char Input[] = {65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90};
+                //ASCI A-Z Alphabet
+	int SizeC = sizeof(Input)/sizeof(Input[0]);
+    List(Input, SizeC);
+    return 0;
 }
 
-void List( char *a, char b)
+void List( char *a, int pn)
 {
-    for(int x=0; x<b; x++)
+    for(int x=0; x<pn; x++)
     {
-        printf("Value of index [%d] is: %c \n", x, *a);
+        printf("%c", *a);
         a++;
     }
+	printf("\n");
 }
