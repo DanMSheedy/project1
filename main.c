@@ -58,6 +58,8 @@ void List( char *a, int pn)
     for(int x=0; x<pn; x++)
     {
         printf("%c", *a); //         printf("%c", *a+KEY); Will Encrypt!!!
+                          //         This has limitations and will not always work correctly,
+                          //         especially when moving backwards in a rotation cipher.
         a++;
     }
 	printf("\n");
