@@ -23,7 +23,7 @@ int main()
 			continueMenuScreen = 0;
 		}
 		else {
-			printf("\n*** Warning: Please enter an integer 0 or 1***\n");
+			printf("\n*** Warning: Please enter an integer 1 or 2***\n");
 			goto Menu;
 			break;
 		}
