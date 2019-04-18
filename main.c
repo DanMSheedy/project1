@@ -4,6 +4,7 @@
 
 void List( char *a, int pn); // a is the array, pl is the number of elements to print (from [0])
 
+void EncryptCaesar(char a*, int key); // a is the array to encrypt, n is the encryption key
 
 int main()
 {
@@ -63,4 +64,9 @@ void List( char *a, int pn)
         a++;
     }
 	printf("\n");
+}
+
+void EncryptCaesar(char a*, int key)
+{
+    
 }
