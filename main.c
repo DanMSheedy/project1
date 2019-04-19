@@ -17,20 +17,22 @@ int main()
     printf("                               MENU:                               \n\n");
     printf("                 \u2023 1.   Rotation Cipher                        \n");
     printf("                 \u2023 2.   Substitution Cipher                    \n");
-    char enterKey, menuInput[200], m[200];
-	int continueMenuScreen=1, menuOption=0, key;
-	BelowMenu:
+    
+    char enterKey, menuInput[20], m[300], EncryptionOrDecryption, EncryptionOrDecryption_Input[20], KeyOrNoKey, KeyOrNoKey_Input[20];
+	int menuOption=0, continue_BelowMenu_Prompt=1, continue_EncryptionOrDecryption_Prompt=1, continue_KeyOrNoKey_Prompt=1, continue_Key_Prompt=1, key;
 	
-	while(continueMenuScreen == 1) {
+	BelowMenu_Prompt:
+	
+	while(continue_BelowMenu_Prompt == 1) {
 		printf("\nEnter an option: ");
 		fgets(menuInput, sizeof(menuInput), stdin);
 		sscanf(menuInput,"%d%c", &menuOption, &enterKey);
 		if ((menuOption==1 || menuOption==2) && (enterKey = '\n')) {
-			continueMenuScreen = 0;
+			continue_BelowMenu_Prompt = 0;
 		}
 		else {
 			printf("\n*** Warning: Please enter an integer 1 or 2***\n");
-			goto BelowMenu;
+			goto BelowMenu_Prompt;
 			break;
 		}
 	}
@@ -41,15 +43,77 @@ int main()
 	    //Rotation Cipher
 		case 1:
 			printf("\n\n|                      ~ ROTATION CIPHER ~                         |\n\n");
-			printf("Are encrypting or decrypting? <E,D>: \n")
-			scanf("%")
+			
+			RotationCipher_EncryptingOrDecrypting_prompt:
+			
+			while(continue_EncryptionOrDecryption_Prompt == 1) {
+                printf("Are you encrypting or decrypting? <E,D>: \n");
+                fgets(EncryptionOrDecryption_Input, sizeof(EncryptionOrDecryption_Input), stdin);
+                sscanf(EncryptionOrDecryption_Input,"%c%c", &EncryptionOrDecryption, &enterKey);
+                
+                if ((EncryptionOrDecryption =='E' || EncryptionOrDecryption == 'D') && (enterKey = '\n')) {
+                    continue_EncryptionOrDecryption_Prompt = 0;
+                }
+                else {
+                    printf("\n*** Warning: Please enter a character E or D***\n");
+                    goto RotationCipher_EncryptingOrDecrypting_prompt;
+                    break;
+                }
+            }
+			
+			RotationCipher_KeyOrNoKey_prompt:
+			
+			while(continue_KeyOrNoKey_Prompt == 1) {
+                printf("Are you using a rotation cipher key? <Y,N>: \n");
+                fgets(KeyOrNoKey_Input, sizeof(KeyOrNoKey_Input), stdin);
+                sscanf(KeyOrNoKey_Input,"%c%c", &KeyOrNoKey, &enterKey);
+                
+                if ((KeyOrNoKey =='Y' || KeyOrNoKey == 'N') && (enterKey = '\n')) {
+                    continue_KeyOrNoKey_Prompt = 0;
+                }
+                else {
+                    printf("\n*** Warning: Please enter a character Y or N***\n");
+                    goto RotationCipher_KeyOrNoKey_prompt;
+                    break;
+                }
+            }
+            
+            if (KeyOrNoKey == 'Y') {
+                RotationCipher_Key_Prompt:
+                while(continue_Key_Prompt == 1) {
+                    printf("Enter cipher key: \n");
+                
+                    if (scanf("%d%c", &key, &enterKey) !=2) {
+                        printf("\n*** Warning: Please enter an integer***\n");
+                        goto RotationCipher_Key_Prompt;
+                        }
+                    else {
+                        continue_Key_Prompt = 0;
+                    }
+                }
+            }
+			
+			if (EncryptionOrDecryption =='E') {
+			    if (KeyOrNoKey == 'Y') {
+			        // Output
+			    }
+			    else {
+			        // Output
+			    }
+			}
+			
+			else {
+			    if (KeyOrNoKey == 'Y') {
+			        // Output
+			    }
+			    else {
+			        // Output
+			    }
+			}
 			
 			printf("Enter a message to encrypt (UPPERCASE-only): \n");
             gets(m);
-            printf("Enter cipher key: \n");
-            scanf("%d", &key);
             EncryptRotation(m, key);
-            
             printf("Rotation Encrypted message: %s \n", m);
             
 			break;

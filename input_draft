@@ -9,5 +9,5 @@ Encryption or decryption <E,D>:      E
     //  Substitution Cipher
     Substituions given <Y,N>:        Y
         Substituted alphabet:        ABCDEFGHIJKLMNOPQRSTUVWXYZ
-        
+        //                          "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     //  Message                      HELLO WORLD
