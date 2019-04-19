@@ -1,0 +1,13 @@
+|________________________________  INPUT ___|
+Menu option <1,2>:                   1
+Encryption or decryption <E,D>:      E
+
+    //  Rotation Cipher
+    Rotation key given <Y,N>:        Y
+        Rotation Cipher Key:         1
+        
+    //  Substitution Cipher
+    Substituions given <Y,N>:        Y
+        Substituted alphabet:        ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        
+    //  Message                      HELLO WORLD

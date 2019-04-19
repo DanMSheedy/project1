@@ -3,9 +3,11 @@
 #include <string.h>
 #define MOD(a,b) ((((a)%(b))+(b))%(b));	 //Useful because the % operator in C doesn't behave correctly with negative integers.
 
-void List( char *a, int pn);             // a is the array, pl is the number of elements to print (from [0])
+//FUNCTION PROTOTYPES
 
-void EncryptCaesar(char *m, int key);    // a is the array to encrypt, n is the encryption key
+void List( char *a, int pn);             // a is the array, pn is the number of elements to print (from [0])
+void EncryptRotation(char *m, int key);  // m is the array to encrypt, key is the encryption key
+void DecryptRotation(char *m, int key);  // m is the array to decrypt, key is the encryption key
 
 int main()
 {
@@ -33,19 +35,19 @@ int main()
 		
 	switch(menuOption) {
 		case 1:
-			printf("\n\n --===ROTATION CIPHER===-- \n");
+			printf("\n\n|                      ~ ROTATION CIPHER ~                         |\n\n");
 			
 			printf("Enter a message to encrypt (UPPERCASE-only): \n");
             gets(m);
             printf("Enter cipher key: \n");
             scanf("%d", &key);
-            EncryptCaesar(m, key);
+            EncryptRotation(m, key);
             
-            printf("Caesar Encrypted message: %s \n", m);
+            printf("Rotation Encrypted message: %s \n", m);
 			break;
 			
 		case 2:
-			printf("\n\n --===SUBSTITUTION CIPHER===-- \n");
+			printf("\n\n|                    ~ SUBSTITUTION CIPHER ~                       |\n\n");
 			break;
 		default:
             break;
@@ -55,7 +57,10 @@ int main()
     return 0;
 }
 
-void List( char *a, int pn)
+
+//FUNCTION DEFINITIONS
+
+void List( char *a, int pn)         //Used to list arrays out as readable text.
 {
     for(int x=0; x<pn; x++)
     {
@@ -65,7 +70,7 @@ void List( char *a, int pn)
 	printf("\n");
 }
 
-void EncryptCaesar(char *m, int key)
+void EncryptRotation(char *m, int key)                //Used to encrypt an array using the caesar cipher method with a key.
 {
     key = MOD(key,26);								//Used instead of key%26 to allow negative keys.
 	for(int i = 0; m[i] != '\0'; ++i){
@@ -82,3 +87,8 @@ void EncryptCaesar(char *m, int key)
 		m[i] = letter;
 		}
 	}
+	
+void DecryptRotation(char *m, int key)                //Used to decrypt an array using the caesar cipher method with a key.
+{
+    
+}
