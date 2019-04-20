@@ -68,7 +68,11 @@ int main()
                 fgets(KeyOrNoKey_Input, sizeof(KeyOrNoKey_Input), stdin);
                 sscanf(KeyOrNoKey_Input,"%c%c", &KeyOrNoKey, &enterKey);
                 
-                if ((KeyOrNoKey =='Y' || KeyOrNoKey == 'N') && (enterKey = '\n')) {
+                if (EncryptionOrDecryption =='E' && KeyOrNoKey == 'N') {
+                    printf("\n*** Warning: you are encrypting, you will need a cipher key!\n");
+                    goto RotationCipher_KeyOrNoKey_prompt;
+                }
+                else if ((KeyOrNoKey =='Y' || KeyOrNoKey == 'N') && (enterKey = '\n')) {
                     continue_KeyOrNoKey_Prompt = 0;
                 }
                 else {
@@ -81,7 +85,11 @@ int main()
             if (KeyOrNoKey == 'Y') {
                 RotationCipher_Key_Prompt:
                 while(continue_Key_Prompt == 1) {
-                    printf("Enter cipher key: \n");
+                    if (EncryptionOrDecryption =='D') {
+                        printf("             ### IMPORTANT!!! ###\n This cipher key needs to be the ORIGINAL KEY which was used to rotate the UNENCRYPTED message into the ENCRYPTED message!\n");
+                        printf(" Otherwise use this formula to find the complementary cipher key:  Original Key = 25 - Key \n");
+                    }
+                        printf("Enter cipher key: \n");
                 
                     if (scanf("%d%c", &key, &enterKey) !=2) {
                         printf("\n*** Warning: Please enter an integer***\n");
@@ -93,28 +101,24 @@ int main()
                 }
             }
 			
-			if (EncryptionOrDecryption =='E') {
-			    if (KeyOrNoKey == 'Y') {
-			        // Output
-			    }
-			    else {
-			        // Output
-			    }
-			}
-			
-			else {
-			    if (KeyOrNoKey == 'Y') {
-			        // Output
-			    }
-			    else {
-			        // Output
-			    }
-			}
-			
 			printf("Enter a message to encrypt (UPPERCASE-only): \n");
             gets(m);
-            EncryptRotation(m, key);
-            printf("Rotation Encrypted message: %s \n", m);
+			
+			
+			if (EncryptionOrDecryption =='E') {                      //Encryption
+			    EncryptRotation(m, key);
+                printf("Rotation Encrypted message: %s \n", m);
+			}
+			
+			else {                                                   //Decryption
+			    if (KeyOrNoKey == 'Y') {
+                    DecryptRotation(m, key);                         //IMPORTANT!!! This cipher key is the orignial cipher key which was used to rotate the uncoded message into the coded message.
+                    printf("Rotation Decrypted message: %s \n", m);
+			    }
+			    else {
+			        // Output
+			    }
+			}
             
 			break;
 
