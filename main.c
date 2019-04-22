@@ -103,9 +103,17 @@ int main()
                 }
             }
 			
-			printf("Enter a message to encrypt (UPPERCASE-only): \n");
+			printf("Enter a message to encrypt: \n");
             gets(m);
-			
+			for(int i = 0; m[i] != '\0'; ++i){
+                char letter = m[i];
+        
+                if(letter >='a' && letter <= 'z') {
+                    letter = letter - ' ';                  //Converts lowercase to uppercase.
+                }
+                m[i] = letter;
+            }
+
 			
 			if (EncryptionOrDecryption =='E') {                      //Encryption
 			    EncryptRotation(m, key);
@@ -158,10 +166,6 @@ void EncryptRotation(char *m, int key)              //Used to encrypt an array u
 	for(int i = 0; m[i] != '\0'; ++i){
         char letter = m[i];
         
-        if(letter >='a' && letter <= 'z') {
-            letter = letter - ' ';                  //Converts lowercase to uppercase.
-        }
-        
 		if(letter >= 'A' && letter <= 'Z'){			//This if statement means that if a user enters a non-CAPITAL
 		  letter = letter + key;					//character then this function does nothing to the array element.
 													//I.e doesn't 'break' it and produce a bizzare output.
@@ -179,10 +183,6 @@ void DecryptRotation(char *m, int key)              //Used to decrypt an array u
     key = 26-MOD(key,26);							//Used instead of key%26 to allow negative keys.
 	for(int i = 0; m[i] != '\0'; ++i){
         char letter = m[i];
-        
-        if(letter >='a' && letter <= 'z') {
-            letter = letter - ' ';                  //Converts lowercase to uppercase.
-        }
         
 		if(letter >= 'A' && letter <= 'Z'){			//This if statement means that if a user enters a non-CAPITAL
 		  letter = letter + key;					//character then this function does nothing to the array element.
