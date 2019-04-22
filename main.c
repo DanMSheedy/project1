@@ -9,6 +9,8 @@ void List( char *a, int pn);                        // a is the array, pn is the
 void EncryptRotation(char *m,int key);              // m is the array to encrypt, key is the encryption key
 void DecryptRotation(char *m, int key);             // m is the array to decrypt, key is the encryption key
 
+//MAIN PRORGAM
+
 int main()
 {
     menu:   //Loop back to main menu
@@ -156,17 +158,21 @@ void EncryptRotation(char *m, int key)              //Used to encrypt an array u
 	for(int i = 0; m[i] != '\0'; ++i){
         char letter = m[i];
         
+        if(letter >='a' && letter <= 'z') {
+            letter = letter - ' ';                  //Converts lowercase to uppercase.
+        }
+        
 		if(letter >= 'A' && letter <= 'Z'){			//This if statement means that if a user enters a non-CAPITAL
 		  letter = letter + key;					//character then this function does nothing to the array element.
-		}											//I.e doesn't 'break' it and produce a bizzare output. 
-		
-		if(letter > 'Z'){                           //This brings back, ASCII character's beyond 'Z', into the bounds
+													//I.e doesn't 'break' it and produce a bizzare output.
+		  if(letter > 'Z'){                         //This brings back, ASCII character's beyond 'Z', into the bounds
 			letter = letter -('Z' - 'A' + 1);       //of 'A' to 'Z'.
-		}
+		  }
+    	}
 			
 		m[i] = letter;
-		}
 	}
+}
 	
 void DecryptRotation(char *m, int key)              //Used to decrypt an array using the rotation cipher method with a key.
 {
@@ -174,14 +180,18 @@ void DecryptRotation(char *m, int key)              //Used to decrypt an array u
 	for(int i = 0; m[i] != '\0'; ++i){
         char letter = m[i];
         
+        if(letter >='a' && letter <= 'z') {
+            letter = letter - ' ';                  //Converts lowercase to uppercase.
+        }
+        
 		if(letter >= 'A' && letter <= 'Z'){			//This if statement means that if a user enters a non-CAPITAL
 		  letter = letter + key;					//character then this function does nothing to the array element.
-		}											//I.e doesn't 'break' it and produce a bizzare output. 
-		
-		if(letter > 'Z'){                           //This brings back, ASCII character's beyond 'Z', into the bounds
+													//I.e doesn't 'break' it and produce a bizzare output. 
+		  if(letter > 'Z'){                         //This brings back, ASCII character's beyond 'Z', into the bounds
 			letter = letter -('Z' - 'A' + 1);       //of 'A' to 'Z'.
-		}
+		  }
+	    }
 			
 		m[i] = letter;
-		}
+	}
 }
