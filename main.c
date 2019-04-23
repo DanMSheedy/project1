@@ -198,8 +198,37 @@ void DecryptRotation(char *m, int key)              //Used to decrypt an array u
 	}
 }
 
-void CharacterMode(char *sm) {                      // Used to determine most occurring character in a sorted array.
+char CharacterMode(char *sm) {                      // Used to determine most occurring character in a sorted array.
+    n = sizeof(*sm)/sizeof(char);                   // Determine the length of the array.
+    int CurrentFreq = 1;
+    int MaxFreq = 1;
+    char MaxFreqChar;
+    char Mode(s)String[n]={0};                      // Used to hold muiltiple characters if mode has muiltiple values.
+    int mstrc = 0;                                  //Mode(s)String counter (while loop).
     
+    for(i=0, i<n, i++) {
+        for(j=0, j<n, j++) {
+            if (i==j) {
+                CurrentFreq++
+            }
+        }
+        if (CurrentFreq > MaxFreq) {
+            MaxFreq = CurrentFreq;
+            MaxFreqChar = sm[i];
+            Mode(s)String[]= {0};
+        }
+        if else (CurrentFreq == MaxFreq) {
+            while(mstrc=0, mstrc < n, mstrc++) {
+                if(Mode(s)String[mstrc]=0) {
+                    Mode(s)String[mstrc]=sm[i];
+                    MaxFreqChar = sm[i];
+                    break;
+                }
+            }
+        }
+        CurrentFreq = 0;                            //Re-initializes the current frequency.
+    }
+    return MaxFreqChar;
 }
 
 void Sort(char *m) {                                // Using qsort() to alphabetically sort an array. 
