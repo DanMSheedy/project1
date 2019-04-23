@@ -5,9 +5,11 @@
 
 //FUNCTION PROTOTYPES
 
-void List( char *a, int pn);                        // a is the array, pn is the number of elements to print (from [0])
-void EncryptRotation(char *m,int key);              // m is the array to encrypt, key is the encryption key
-void DecryptRotation(char *m, int key);             // m is the array to decrypt, key is the encryption key
+void List(char *a, int pn);                         // Used to list elements in an array: a is the array, pn is the number of elements to print (from [0]).
+void EncryptRotation(char *m,int key);              // Used to encrypt via rotation method, with a key: m is the array to encrypt, key is the encryption key.
+void DecryptRotation(char *m, int key);             // Used to decrypt via rotation method, with a key: m is the array to decrypt, key is the encryption key.
+void CharacterMode(char *sm);                       // Used to determine most occurring character in a sorted array: sm is the sorted message array input.
+void Sort(char *m);                                 // Using qsort() to sort an array. m is the message to be sorted (alphabetically). 
 
 //MAIN PRORGAM
 
@@ -109,7 +111,7 @@ int main()
                 char letter = m[i];
         
                 if(letter >='a' && letter <= 'z') {
-                    letter = letter - ' ';                  //Converts lowercase to uppercase.
+                    letter = letter - 32;                  //Converts lowercase to uppercase.
                 }
                 m[i] = letter;
             }
@@ -194,4 +196,12 @@ void DecryptRotation(char *m, int key)              //Used to decrypt an array u
 			
 		m[i] = letter;
 	}
+}
+
+void CharacterMode(char *sm) {                      // Used to determine most occurring character in a sorted array.
+    
+}
+
+void Sort(char *m) {                                // Using qsort() to alphabetically sort an array. 
+    
 }
