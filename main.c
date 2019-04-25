@@ -10,6 +10,7 @@ void List(char *a, int pn);                             // Used to list elements
 void EncryptRotation(char *m,int key);                  // Used to encrypt via rotation method, with a key: m is the array to encrypt, key is the encryption key.
 void DecryptRotation(char *m, int key);                 // Used to decrypt via rotation method, with a key: m is the array to decrypt, key is the encryption key.
 void LetterFrequencyDistribution( char *m, int *lfdm);	// Used to list the frequencies of letters in message in a single string, lfdm. Array m is the message input, array lfdm is the destination output for the letter frequency distribution of the message.
+char MostOccurringLetter(int *lfdm);                    // Array lfdm is the letterFrequencyDistribution input, and function will output the char which has highest frequency.
 
 
 //OTHER DECLARATIONS (move to a #define statement?)
@@ -113,7 +114,7 @@ int main()
                 }
             }
 			
-			printf("Enter a message to encrypt: \n");
+			printf("Enter a message: \n");
             fgets(m, sizeof(m)/sizeof(char), stdin);
 			for(int i = 0; m[i] != '\0'; ++i){
                 char letter = m[i];
@@ -136,7 +137,9 @@ int main()
                     printf("Rotation Decrypted message: %s \n", m);
 			    }
 			    else {
-			        // Output
+			        key = 'E'-MostOccurringLetter(lfdm)-1;           // Assumes that the most occurring letter in the (translated) message will be 'E', and whereby the key is found. Not sure why this calculation works - but it does ^_^.
+			        DecryptRotation(m, key);
+			        printf("Rotation Decrypted message: %s \n", m);
 			    }
 			}
             
@@ -160,6 +163,8 @@ int main()
 	for (int i=0; i<26; i++) {                                       // Temporary ***
 			printf("%c : %d \n", alphabet[i], lfdm[i]);
 		}
+		
+	printf("\nMost occuring letter: %c", MostOccurringLetter(lfdm));  // Temporary ***
     
     return 0;
 }
@@ -217,12 +222,27 @@ void LetterFrequencyDistribution( char *m, int *lfdm) {
     int n = 0;                                      // Initialize message character counter.
 	int i =0;                                       // Initialize alphabet letter counter.
 	
-	while (m[n] != '\0') {                          //To count to the end of the message.
-		for (i=0; i<26; i++) {                      //To count through alphabet.
-			if(m[n]==alphabet[i]) {                 //If at a position in the message, the character is equal to some letter in the alphabet, 
-				lfdm[i]++;                          //then add 1 to the frequency of that letter.
+	while (m[n] != '\0') {                          // To count to the end of the message.
+		for (i=0; i<26; i++) {                      // To count through alphabet.
+			if(m[n]==alphabet[i]) {                 // If at a position in the message, the character is equal to some letter in the alphabet, 
+				lfdm[i]++;                          // then add 1 to the frequency of that letter.
 			}
 		}
-		n++;                                        //Move along to the next character in the message.
+		n++;                                        // Move along to the next character in the message.
 	}
+}
+
+char MostOccurringLetter(int *lfdm) {
+    int n = 0;
+	int HF = 0;		                                // Highest Frequency (of all letters).
+	int L = 0;	                                    // Position (in the alphabet) value of the letter with the HF.
+	
+	for(n=0; n<26; n++) {
+		if (lfdm[n] > HF) {
+			HF = lfdm[n];
+			L = n;                                  // Set current letter to be the most occurring (so far).
+		}
+	}
+	
+	return alphabet[L];
 }
