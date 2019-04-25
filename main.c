@@ -8,14 +8,13 @@
 void List(char *a, int pn);                         // Used to list elements in an array: a is the array, pn is the number of elements to print (from [0]).
 void EncryptRotation(char *m,int key);              // Used to encrypt via rotation method, with a key: m is the array to encrypt, key is the encryption key.
 void DecryptRotation(char *m, int key);             // Used to decrypt via rotation method, with a key: m is the array to decrypt, key is the encryption key.
-void CharacterMode(char *sm);                       // Used to determine most occurring character in a sorted array: sm is the sorted message array input.
-void Sort(char *m);                                 // Using qsort() to sort an array. m is the message to be sorted (alphabetically). 
+char FrequencyDistribution(char *sm);               // Used to determine the frequency of letters in message: sm is the message array input.
 
 //MAIN PRORGAM
 
 int main()
 {
-    menu:   //Loop back to main menu
+//    menu:   //Loop back to main menu
     printf("|    Welcome to Daniel Sheedy's Cyptographic Cipher Collection!    |\n");
     printf("|        ~ Submitted as an ENG1003 Programming Assignment ~        |\n\n");
     printf("                               MENU:                               \n\n");
@@ -106,12 +105,12 @@ int main()
             }
 			
 			printf("Enter a message to encrypt: \n");
-            gets(m);
+            fgets(m, sizeof(m)/sizeof(char), stdin);
 			for(int i = 0; m[i] != '\0'; ++i){
                 char letter = m[i];
         
                 if(letter >='a' && letter <= 'z') {
-                    letter = letter - 32;                  //Converts lowercase to uppercase.
+                    letter = letter - 32;                            //Converts lowercase to uppercase.
                 }
                 m[i] = letter;
             }
@@ -198,39 +197,6 @@ void DecryptRotation(char *m, int key)              //Used to decrypt an array u
 	}
 }
 
-char CharacterMode(char *sm) {                      // Used to determine most occurring character in a sorted array.
-    n = sizeof(*sm)/sizeof(char);                   // Determine the length of the array.
-    int CurrentFreq = 1;
-    int MaxFreq = 1;
-    char MaxFreqChar;
-    char Mode(s)String[n]={0};                      // Used to hold muiltiple characters if mode has muiltiple values.
-    int mstrc = 0;                                  //Mode(s)String counter (while loop).
-    
-    for(i=0, i<n, i++) {
-        for(j=0, j<n, j++) {
-            if (i==j) {
-                CurrentFreq++
-            }
-        }
-        if (CurrentFreq > MaxFreq) {
-            MaxFreq = CurrentFreq;
-            MaxFreqChar = sm[i];
-            Mode(s)String[]= {0};
-        }
-        if else (CurrentFreq == MaxFreq) {
-            while(mstrc=0, mstrc < n, mstrc++) {
-                if(Mode(s)String[mstrc]=0) {
-                    Mode(s)String[mstrc]=sm[i];
-                    MaxFreqChar = sm[i];
-                    break;
-                }
-            }
-        }
-        CurrentFreq = 0;                            //Re-initializes the current frequency.
-    }
-    return MaxFreqChar;
-}
-
-void Sort(char *m) {                                // Using qsort() to alphabetically sort an array. 
-    
+char FrequencyDistribution(char *sm) {
+    return 0;
 }
