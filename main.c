@@ -3,12 +3,19 @@
 #include <string.h>
 #define MOD(a,b) ((((a)%(b))+(b))%(b));	 //Useful because the % operator in C doesn't behave correctly with negative integers.
 
+
 //FUNCTION PROTOTYPES
 
-void List(char *a, int pn);                         // Used to list elements in an array: a is the array, pn is the number of elements to print (from [0]).
-void EncryptRotation(char *m,int key);              // Used to encrypt via rotation method, with a key: m is the array to encrypt, key is the encryption key.
-void DecryptRotation(char *m, int key);             // Used to decrypt via rotation method, with a key: m is the array to decrypt, key is the encryption key.
-char FrequencyDistribution(char *sm);               // Used to determine the frequency of letters in message: sm is the message array input.
+void List(char *a, int pn);                             // Used to list elements in an array: a is the array, pn is the number of elements to print (from [0]).
+void EncryptRotation(char *m,int key);                  // Used to encrypt via rotation method, with a key: m is the array to encrypt, key is the encryption key.
+void DecryptRotation(char *m, int key);                 // Used to decrypt via rotation method, with a key: m is the array to decrypt, key is the encryption key.
+void LetterFrequencyDistribution( char *m, int *lfdm);	// Used to list the frequencies of letters in message in a single string, lfdm. Array m is the message input, array lfdm is the destination output for the letter frequency distribution of the message.
+
+
+//OTHER DECLARATIONS (move to a #define statement?)
+
+static char alphabet[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+
 
 //MAIN PRORGAM
 
@@ -21,8 +28,10 @@ int main()
     printf("                 \u2023 1.   Rotation Cipher                        \n");
     printf("                 \u2023 2.   Substitution Cipher                    \n");
     
+    // VARIABLES
     char enterKey, menuInput[20], m[300], EncryptionOrDecryption, EncryptionOrDecryption_Input[20], KeyOrNoKey, KeyOrNoKey_Input[20];
-	int menuOption=0, continue_BelowMenu_Prompt=1, continue_EncryptionOrDecryption_Prompt=1, continue_KeyOrNoKey_Prompt=1, continue_Key_Prompt=1, key;
+	int menuOption=0, continue_BelowMenu_Prompt=1, continue_EncryptionOrDecryption_Prompt=1, continue_KeyOrNoKey_Prompt=1, continue_Key_Prompt=1, key, lfdm[26] = {0};
+	// Note to self: Explain each variable?
 	
 	BelowMenu_Prompt:
 	
@@ -110,20 +119,20 @@ int main()
                 char letter = m[i];
         
                 if(letter >='a' && letter <= 'z') {
-                    letter = letter - 32;                            //Converts lowercase to uppercase.
+                    letter = letter - 32;                            // Converts lowercase to uppercase.
                 }
                 m[i] = letter;
             }
 
 			
-			if (EncryptionOrDecryption =='E') {                      //Encryption
+			if (EncryptionOrDecryption =='E') {                      // Encryption
 			    EncryptRotation(m, key);
                 printf("Rotation Encrypted message: %s \n", m);
 			}
 			
-			else {                                                   //Decryption
+			else {                                                   // Decryption
 			    if (KeyOrNoKey == 'Y') {
-                    DecryptRotation(m, key);                         //IMPORTANT!!! This cipher key is the orignial cipher key which was used to rotate the uncoded message into the coded message.
+                    DecryptRotation(m, key);                         // IMPORTANT!!! This cipher key is the orignial cipher key which was used to rotate the uncoded message into the coded message.
                     printf("Rotation Decrypted message: %s \n", m);
 			    }
 			    else {
@@ -143,7 +152,14 @@ int main()
 
 
 	}
-		
+	
+	printf("\n");
+    LetterFrequencyDistribution(m, lfdm);                            // m - input: message.
+                                                                     // lfdm - output: letter frequency distribution of message.
+   
+	for (int i=0; i<26; i++) {                                       // Temporary ***
+			printf("%c : %d \n", alphabet[i], lfdm[i]);
+		}
     
     return 0;
 }
@@ -151,7 +167,7 @@ int main()
 
 //FUNCTION DEFINITIONS
 
-void List( char *a, int pn)                         //Used to list arrays out as readable text.
+void List( char *a, int pn)                         // Used to list arrays out as readable text.
 {
     for(int x=0; x<pn; x++)
     {
@@ -161,17 +177,17 @@ void List( char *a, int pn)                         //Used to list arrays out as
 	printf("\n");
 }
 
-void EncryptRotation(char *m, int key)              //Used to encrypt an array using the rotation cipher method with a key.
+void EncryptRotation(char *m, int key)              // Used to encrypt an array using the rotation cipher method with a key.
 {
-    key = MOD(key,26);								//Used instead of key%26 to allow negative keys.
+    key = MOD(key,26);								// Used instead of key%26 to allow negative keys.
 	for(int i = 0; m[i] != '\0'; ++i){
         char letter = m[i];
         
-		if(letter >= 'A' && letter <= 'Z'){			//This if statement means that if a user enters a non-CAPITAL
-		  letter = letter + key;					//character then this function does nothing to the array element.
-													//I.e doesn't 'break' it and produce a bizzare output.
-		  if(letter > 'Z'){                         //This brings back, ASCII character's beyond 'Z', into the bounds
-			letter = letter -('Z' - 'A' + 1);       //of 'A' to 'Z'.
+		if(letter >= 'A' && letter <= 'Z'){			// This if statement means that if a user enters a non-CAPITAL
+		  letter = letter + key;					// character then this function does nothing to the array element.
+													// I.e doesn't 'break' it and produce a bizzare output.
+		  if(letter > 'Z'){                         // This brings back, ASCII character's beyond 'Z', into the bounds
+			letter = letter -('Z' - 'A' + 1);       // of 'A' to 'Z'.
 		  }
     	}
 			
@@ -179,17 +195,17 @@ void EncryptRotation(char *m, int key)              //Used to encrypt an array u
 	}
 }
 	
-void DecryptRotation(char *m, int key)              //Used to decrypt an array using the rotation cipher method with a key.
+void DecryptRotation(char *m, int key)              // Used to decrypt an array using the rotation cipher method with a key.
 {
-    key = 26-MOD(key,26);							//Used instead of key%26 to allow negative keys.
+    key = 26-MOD(key,26);							// Used instead of key%26 to allow negative keys.
 	for(int i = 0; m[i] != '\0'; ++i){
         char letter = m[i];
         
-		if(letter >= 'A' && letter <= 'Z'){			//This if statement means that if a user enters a non-CAPITAL
-		  letter = letter + key;					//character then this function does nothing to the array element.
-													//I.e doesn't 'break' it and produce a bizzare output. 
-		  if(letter > 'Z'){                         //This brings back, ASCII character's beyond 'Z', into the bounds
-			letter = letter -('Z' - 'A' + 1);       //of 'A' to 'Z'.
+		if(letter >= 'A' && letter <= 'Z'){			// This if statement means that if a user enters a non-CAPITAL
+		  letter = letter + key;					// character then this function does nothing to the array element.
+													// I.e doesn't 'break' it and produce a bizzare output. 
+		  if(letter > 'Z'){                         // This brings back, ASCII character's beyond 'Z', into the bounds
+			letter = letter -('Z' - 'A' + 1);       // of 'A' to 'Z'.
 		  }
 	    }
 			
@@ -197,6 +213,16 @@ void DecryptRotation(char *m, int key)              //Used to decrypt an array u
 	}
 }
 
-char FrequencyDistribution(char *sm) {
-    return 0;
+void LetterFrequencyDistribution( char *m, int *lfdm) {
+    int n = 0;                                      // Initialize message character counter.
+	int i =0;                                       // Initialize alphabet letter counter.
+	
+	while (m[n] != '\0') {                          //To count to the end of the message.
+		for (i=0; i<26; i++) {                      //To count through alphabet.
+			if(m[n]==alphabet[i]) {                 //If at a position in the message, the character is equal to some letter in the alphabet, 
+				lfdm[i]++;                          //then add 1 to the frequency of that letter.
+			}
+		}
+		n++;                                        //Move along to the next character in the message.
+	}
 }
