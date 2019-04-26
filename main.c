@@ -159,24 +159,32 @@ int main()
 			if (EncryptionOrDecryption =='E') {                      // Encryption (using a key)
 			    EncryptRotation(m, key, em);
                 printf("Rotation Encrypted message: %s \n", em);
+                printf("\nFrom the orginal message: \n %s \n", m);
 			}
 			
 			else {                                                   // Decryption (using a key)
 			    if (KeyOrNoKey == 'Y') {
                     DecryptRotation(m, key, dm);                     // IMPORTANT!!! This cipher key is the orignial cipher key which was used to rotate the uncoded message into the coded message.
-                    printf("Rotation Decrypted message: %s \n", dm);
+                    printf("Rotation Decrypted message: \n %s \n", dm);
+                    printf("\nFrom the orginal message: \n %s \n", m);
 			    }
 			    else {                                               // Decryption (without a key)
 			        LetterFrequencyDistribution(m, lfdm);
 			        key = MOD((MostOccurringLetter(lfdm)-'E'), 26);  // Assumes that the most occurring letter in the (translated) message will be 'E', and whereby the key is found. Not sure why this calculation works - but it does ^_^.
-			        printf("\nThe Most occuring letter in the entered message is: %c \n", MostOccurringLetter(lfdm));
-			        printf("Based on the letter 'E' occuring most in the English language; we presume that \nthe letter 'E' was encrypted to '%c'. ", MostOccurringLetter(lfdm));
+			        printf("\nThe most occuring letter in the entered message is: %c \n", MostOccurringLetter(lfdm));
+			        printf("The second Most occuring letter in the entered message is: %c \n", SecondMostOccurringLetter(lfdm));
+			        printf("The third most occuring letter in the entered message is: %c \n", ThirdMostOccurringLetter(lfdm));
+			        printf("\nBased on the letter 'E' occuring most in the English language; we presume that \nthe letter 'E' was encrypted to '%c'. ", MostOccurringLetter(lfdm));
 			        printf("This implies an original encryptipon key of %d.\n\n", key);
 			        DecryptRotation(m, key, dm);
-			        printf("Rotation Decrypted message: %s \n", dm);
+			        printf("Rotation Decrypted message: \n %s \n", dm);
+			        printf("\nFrom the orginal message: \n %s \n", m);
 			        
 			        // Question asking if this text is recognizable, if not, then assume 'E' is congruent to 2nd most occuring leter. 
 			        // Question to printf all possible combinations
+			        
+			        
+			        
 			    }
 			}
             
@@ -206,6 +214,8 @@ int main()
 		}
 		
 	printf("\nMost occuring letter: %c", MostOccurringLetter(lfdm));  // Temporary ***
+	printf("\nSecond most occuring letter: %c", SecondMostOccurringLetter(lfdm));  // Temporary ***
+	printf("\nThird most occuring letter: %c", ThirdMostOccurringLetter(lfdm));  // Temporary ***
     
     return 0;
 }
@@ -274,7 +284,7 @@ void LetterFrequencyDistribution( char *m, int *lfdm) {
 }
 
 char MostOccurringLetter(int *lfdm) {
-    int n = 0;
+    int n = 0;                                      // Initialize counter to run through lfdm.
 	int HF = 0;		                                // Highest Frequency (of all letters).
 	int L = 0;	                                    // Position (in the alphabet) value of the letter with the HF.
 	
@@ -288,35 +298,63 @@ char MostOccurringLetter(int *lfdm) {
 	return alphabet[L];
 }
 
-//EDIT
 char SecondMostOccurringLetter(int *lfdm) {
-    int n = 0;
+    int n = 0;                                      // Initialize counter to run through lfdm.
+    
+    int HF = 0;		                                // Highest Frequency (of all letters).
+	
 	int SecondHF = 0;		                        // Second Highest Frequency (of all letters).
-	int L = 0;	                                    // Position (in the alphabet) value of the letter with the 2nd HF.
+	int SecondL = 0;	                            // Position (in the alphabet) value of the letter with the 2nd HF.
 	
+	//Finds most occurring letter's location point.
+	for(n=0; n<26; n++) {                          
+		if (lfdm[n] > HF) {
+			HF = lfdm[n];
+		}
+	}
+	
+	//Finds second most occurring letter's location point.
 	for(n=0; n<26; n++) {
-		if ((lfdm[n] > SecondHF) && 1 /* <Not greater than MostOccuringLetter> */) {
+		if ((lfdm[n] > SecondHF) && !(lfdm[n] >= HF)) {
 			SecondHF = lfdm[n];
-			L = n;                                  // Set current letter to be the most occurring (so far).
+			SecondL = n;                            // Set current letter to be the most occurring (so far) - which is not the most occurring.
 		}
 	}
 	
-	return alphabet[L];
+	return alphabet[SecondL];
 }
 
-//EDIT
 char ThirdMostOccurringLetter(int *lfdm) {
-    int n = 0;
-	int ThirdHF = 0;		                        // Third Highest Frequency (of all letters).
-	int L = 0;	                                    // Position (in the alphabet) value of the letter with the 3rd HF.
+    int n = 0;                                      // Initialize counter to run through lfdm.
+    
+    int HF = 0;		                                // Highest Frequency (of all letters).
 	
-	for(n=0; n<26; n++) {
-		if ((lfdm[n] > ThirdHF) && 1 /* <Not greater than 2ndMostOccuringLetter> */) {
-			ThirdHF = lfdm[n];
-			L = n;                                  // Set current letter to be the most occurring (so far).
+    int SecondHF = 0;		                        // Second Highest Frequency (of all letters).
+	    
+	int ThirdHF = 0;		                        // Third Highest Frequency (of all letters).
+	int ThirdL = 0;	                                // Position (in the alphabet) value of the letter with the 3rd HF.
+	
+	//Finds most occurring letter's location point.
+	for(n=0; n<26; n++) {                          
+		if (lfdm[n] > HF) {
+			HF = lfdm[n];
 		}
 	}
 	
-	return alphabet[L];
+	//Finds second most occurring letter's location point.
+	for(n=0; n<26; n++) {
+		if ((lfdm[n] > SecondHF) && !(lfdm[n] >= HF)) {
+			SecondHF = lfdm[n];
+		}
+	}
+	
+	//Finds Third Most Occurring letter's location point.
+	for(n=0; n<26; n++) {
+		if ((lfdm[n] > ThirdHF) && !(lfdm[n] >= SecondHF)) {
+			ThirdHF = lfdm[n];
+			ThirdL = n;                             // Set current letter to be the most occurring (so far) - which is not the most, or second most, occurring.
+		}
+	}
+	
+	return alphabet[ThirdL];
 }
-
