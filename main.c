@@ -31,7 +31,7 @@ int main()
     printf("                 \u2023 2.   Substitution Cipher                    \n");
     
     // VARIABLES
-    char enterKey, menuInput[20], m[600], em[600], dm[600], EncryptionOrDecryption, EncryptionOrDecryption_Input[20], KeyOrNoKey, KeyOrNoKey_Input[20];
+    char enterKey, menuInput[20], m[600], em[600], dm[600], EncryptionOrDecryption, EncryptionOrDecryption_Input[20], KeyOrNoKey, KeyOrNoKey_Input[20], SubstitutionKeyAlphabet[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 	int menuOption=0, continue_BelowMenu_Prompt=1, continue_EncryptionOrDecryption_Prompt=1, continue_KeyOrNoKey_Prompt=1, continue_Key_Prompt=1, key, lfdm[26] = {0};
 	// Note to self: Explain each variable?
 	
@@ -84,6 +84,7 @@ int main()
         
     switch(menuOption) {
 	    
+	    //Key Setup for RotationCipher
 	    case 1:
             RotationCipher_KeyOrNoKey_prompt:
 			
@@ -126,8 +127,48 @@ int main()
             }
             break;
 
+        //Key Setup for SubstitutionCipher
 	    case 2:
-                                                                     // This space is for the substitution key.
+            SubstitutionCipher_KeyOrNoKey_prompt:
+			
+			while(continue_KeyOrNoKey_Prompt == 1) {
+                printf("Are you using a substitution cipher alphabet key? <Y,N>: \n");
+                fgets(KeyOrNoKey_Input, sizeof(KeyOrNoKey_Input), stdin);
+                sscanf(KeyOrNoKey_Input,"%c%c", &KeyOrNoKey, &enterKey);
+                
+                if (EncryptionOrDecryption =='E' && KeyOrNoKey == 'N') {
+                    printf("\n*** Warning: you are encrypting, you will need a cipher key!\n");
+                    goto SubstitutionCipher_KeyOrNoKey_prompt;
+                }
+                else if ((KeyOrNoKey =='Y' || KeyOrNoKey == 'N') && (enterKey = '\n')) {
+                    continue_KeyOrNoKey_Prompt = 0;
+                }
+                else {
+                    printf("\n*** Warning: Please enter a character Y or N***\n");
+                    goto SubstitutionCipher_KeyOrNoKey_prompt;
+                    break;
+                }
+            }
+            //SubstitutionKeyAlphabet
+            //EDIT EVERYTHING BELOW
+            if (KeyOrNoKey == 'Y') {
+                SubstitutionCipher_Key_Prompt:
+                while(continue_Key_Prompt == 1) {
+                    if (EncryptionOrDecryption =='D') {
+                        printf("             ### IMPORTANT!!! ###\n This cipher key needs to be the ORIGINAL KEY which was used to rotate the UNENCRYPTED message into the ENCRYPTED message!\n");
+                        printf(" Otherwise use this formula to find the complementary cipher key:  Original Key = 25 - Key \n");
+                    }
+                        printf("Enter cipher key: \n");
+                
+                    if (scanf("%d%c", &key, &enterKey) !=2) {
+                        printf("\n*** Warning: Please enter an integer***\n");
+                        goto SubstitutionCipher_Key_Prompt;
+                        }
+                    else {
+                        continue_Key_Prompt = 0;
+                    }
+                }
+            }
             break;
 
 		default:
@@ -162,8 +203,8 @@ int main()
                 printf("\nFrom the orginal message: \n %s \n", m);
 			}
 			
-			else {                                                   // Decryption (using a key)
-			    if (KeyOrNoKey == 'Y') {
+			else {                                                   // Decryption
+			    if (KeyOrNoKey == 'Y') {                             // Decryption (using a key)
                     DecryptRotation(m, key, dm);                     // IMPORTANT!!! This cipher key is the orignial cipher key which was used to rotate the uncoded message into the coded message.
                     printf("Rotation Decrypted message: \n %s \n", dm);
                     printf("\nFrom the orginal message: \n %s \n", m);
@@ -194,7 +235,22 @@ int main()
         //Substitution Cipher
 		case 2:
 			
-			
+			if (EncryptionOrDecryption =='E') {                      // Encryption (using a key)
+			    //stuff
+		    }
+
+            else {                                                   // Decryption
+			    if (KeyOrNoKey == 'Y') {                             // Decryption (using a key)
+			    //stuff
+		        }
+                else {                                               // Decryption (without a key)
+                //stuff
+                }
+
+
+	      }
+
+
 			
 			break;
 			
