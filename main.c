@@ -10,8 +10,9 @@ void List(char *a, int pn);                             // Used to list elements
 void EncryptRotation(char *m,int key,char *em);         // Used to encrypt via rotation method, with a key: m is the message array, key is the encryption key, em is the output encrypted array.
 void DecryptRotation(char *m, int key,char *dm);        // Used to decrypt via rotation method, with a key: m is the message array, key is the encryption key. dm is the output decrypted array.
 void LetterFrequencyDistribution( char *m, int *lfdm);	// Used to list the frequencies of letters in message in a single string, lfdm. Array m is the message input, array lfdm is the destination output for the letter frequency distribution of the message.
-char MostOccurringLetter(int *lfdm);                    // Array lfdm is the letterFrequencyDistribution input, and function will output the char which has highest frequency.
-
+char MostOccurringLetter(int *lfdm);                    // Array lfdm is the letterFrequencyDistribution input, and function will output the char which has the highest frequency.
+char SecondMostOccurringLetter(int *lfdm);              // Array lfdm is the letterFrequencyDistribution input, and function will output the char which has the 2nd highest frequency.
+char ThirdMostOccurringLetter(int *lfdm);               // Array lfdm is the letterFrequencyDistribution input, and function will output the char which has the 3rd highest frequency.
 
 //OTHER DECLARATIONS (move to a #define statement?)
 
@@ -195,6 +196,7 @@ int main()
 
 	}
 	
+	// Temporary
 	printf("\n");
     LetterFrequencyDistribution(m, lfdm);                            // m - input: message.
                                                                      // lfdm - output: letter frequency distribution of message.
@@ -285,3 +287,36 @@ char MostOccurringLetter(int *lfdm) {
 	
 	return alphabet[L];
 }
+
+//EDIT
+char SecondMostOccurringLetter(int *lfdm) {
+    int n = 0;
+	int SecondHF = 0;		                        // Second Highest Frequency (of all letters).
+	int L = 0;	                                    // Position (in the alphabet) value of the letter with the 2nd HF.
+	
+	for(n=0; n<26; n++) {
+		if ((lfdm[n] > SecondHF) && 1 /* <Not greater than MostOccuringLetter> */) {
+			SecondHF = lfdm[n];
+			L = n;                                  // Set current letter to be the most occurring (so far).
+		}
+	}
+	
+	return alphabet[L];
+}
+
+//EDIT
+char ThirdMostOccurringLetter(int *lfdm) {
+    int n = 0;
+	int ThirdHF = 0;		                        // Third Highest Frequency (of all letters).
+	int L = 0;	                                    // Position (in the alphabet) value of the letter with the 3rd HF.
+	
+	for(n=0; n<26; n++) {
+		if ((lfdm[n] > ThirdHF) && 1 /* <Not greater than 2ndMostOccuringLetter> */) {
+			ThirdHF = lfdm[n];
+			L = n;                                  // Set current letter to be the most occurring (so far).
+		}
+	}
+	
+	return alphabet[L];
+}
+
