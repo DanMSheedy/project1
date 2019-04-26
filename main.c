@@ -7,8 +7,8 @@
 //FUNCTION PROTOTYPES
 
 void List(char *a, int pn);                             // Used to list elements in an array: a is the array, pn is the number of elements to print (from [0]).
-void EncryptRotation(char *m,int key);                  // Used to encrypt via rotation method, with a key: m is the array to encrypt, key is the encryption key.
-void DecryptRotation(char *m, int key);                 // Used to decrypt via rotation method, with a key: m is the array to decrypt, key is the encryption key.
+void EncryptRotation(char *m,int key,char *em);         // Used to encrypt via rotation method, with a key: m is the message array, key is the encryption key, em is the output encrypted array.
+void DecryptRotation(char *m, int key,char *dm);        // Used to decrypt via rotation method, with a key: m is the message array, key is the encryption key. dm is the output decrypted array.
 void LetterFrequencyDistribution( char *m, int *lfdm);	// Used to list the frequencies of letters in message in a single string, lfdm. Array m is the message input, array lfdm is the destination output for the letter frequency distribution of the message.
 char MostOccurringLetter(int *lfdm);                    // Array lfdm is the letterFrequencyDistribution input, and function will output the char which has highest frequency.
 
@@ -30,7 +30,7 @@ int main()
     printf("                 \u2023 2.   Substitution Cipher                    \n");
     
     // VARIABLES
-    char enterKey, menuInput[20], m[300], EncryptionOrDecryption, EncryptionOrDecryption_Input[20], KeyOrNoKey, KeyOrNoKey_Input[20];
+    char enterKey, menuInput[20], m[600], em[600], dm[600], EncryptionOrDecryption, EncryptionOrDecryption_Input[20], KeyOrNoKey, KeyOrNoKey_Input[20];
 	int menuOption=0, continue_BelowMenu_Prompt=1, continue_EncryptionOrDecryption_Prompt=1, continue_KeyOrNoKey_Prompt=1, continue_Key_Prompt=1, key, lfdm[26] = {0};
 	// Note to self: Explain each variable?
 	
@@ -50,31 +50,41 @@ int main()
 		}
 	}
 	
-	
 	switch(menuOption) {
 	    
-	    //Rotation Cipher
-		case 1:
-			printf("\n\n|                      ~ ROTATION CIPHER ~                         |\n\n");
+	    case 1:
+            printf("\n\n|                      ~ ROTATION CIPHER ~                         |\n\n");
+            break;
+
+	    case 2:
+            printf("\n\n|                    ~ SUBSTITUTION CIPHER ~                       |\n\n");
+            break;
+
+		default:
+            break;
+       }
+    
+    EncryptingOrDecrypting_prompt:
 			
-			RotationCipher_EncryptingOrDecrypting_prompt:
-			
-			while(continue_EncryptionOrDecryption_Prompt == 1) {
-                printf("Are you encrypting or decrypting? <E,D>: \n");
-                fgets(EncryptionOrDecryption_Input, sizeof(EncryptionOrDecryption_Input), stdin);
-                sscanf(EncryptionOrDecryption_Input,"%c%c", &EncryptionOrDecryption, &enterKey);
+		while(continue_EncryptionOrDecryption_Prompt == 1) {
+            printf("Are you encrypting or decrypting? <E,D>: \n");
+            fgets(EncryptionOrDecryption_Input, sizeof(EncryptionOrDecryption_Input), stdin);
+            sscanf(EncryptionOrDecryption_Input,"%c%c", &EncryptionOrDecryption, &enterKey);
                 
-                if ((EncryptionOrDecryption =='E' || EncryptionOrDecryption == 'D') && (enterKey = '\n')) {
-                    continue_EncryptionOrDecryption_Prompt = 0;
-                }
-                else {
-                    printf("\n*** Warning: Please enter a character E or D***\n");
-                    goto RotationCipher_EncryptingOrDecrypting_prompt;
-                    break;
-                }
+            if ((EncryptionOrDecryption =='E' || EncryptionOrDecryption == 'D') && (enterKey = '\n')) {
+                 continue_EncryptionOrDecryption_Prompt = 0;
             }
-			
-			RotationCipher_KeyOrNoKey_prompt:
+            else {
+                printf("\n*** Warning: Please enter a character E or D***\n");
+                goto EncryptingOrDecrypting_prompt;
+                break;
+            }
+        }
+        
+    switch(menuOption) {
+	    
+	    case 1:
+            RotationCipher_KeyOrNoKey_prompt:
 			
 			while(continue_KeyOrNoKey_Prompt == 1) {
                 printf("Are you using a rotation cipher key? <Y,N>: \n");
@@ -113,43 +123,72 @@ int main()
                     }
                 }
             }
-			
-			printf("Enter a message: \n");
-            fgets(m, sizeof(m)/sizeof(char), stdin);
-			for(int i = 0; m[i] != '\0'; ++i){
-                char letter = m[i];
-        
-                if(letter >='a' && letter <= 'z') {
-                    letter = letter - 32;                            // Converts lowercase to uppercase.
-                }
-                m[i] = letter;
-            }
+            break;
 
+	    case 2:
+                                                                     // This space is for the substitution key.
+            break;
+
+		default:
+            break;
+    }
+	
+	printf("Enter a message to ");
+	if(EncryptionOrDecryption=='E') {
+	    printf("encrypt: \n");
+	}
+	else {
+	    printf("decrypt: \n");
+	}
+    fgets(m, sizeof(m)/sizeof(char), stdin);
+		for(int i = 0; m[i] != '\0'; ++i){
+            char letter = m[i];
+    
+            if(letter >='a' && letter <= 'z') {
+                letter = letter - 32;                                // Converts lowercase to uppercase.
+            }
+            m[i] = letter;
+        }
+	
+	switch(menuOption) {
+	    
+	    //Rotation Cipher
+		case 1:
 			
-			if (EncryptionOrDecryption =='E') {                      // Encryption
-			    EncryptRotation(m, key);
-                printf("Rotation Encrypted message: %s \n", m);
+			if (EncryptionOrDecryption =='E') {                      // Encryption (using a key)
+			    EncryptRotation(m, key, em);
+                printf("Rotation Encrypted message: %s \n", em);
 			}
 			
-			else {                                                   // Decryption
+			else {                                                   // Decryption (using a key)
 			    if (KeyOrNoKey == 'Y') {
-                    DecryptRotation(m, key);                         // IMPORTANT!!! This cipher key is the orignial cipher key which was used to rotate the uncoded message into the coded message.
-                    printf("Rotation Decrypted message: %s \n", m);
+                    DecryptRotation(m, key, dm);                     // IMPORTANT!!! This cipher key is the orignial cipher key which was used to rotate the uncoded message into the coded message.
+                    printf("Rotation Decrypted message: %s \n", dm);
 			    }
-			    else {
-			        key = 'E'-MostOccurringLetter(lfdm)-1;           // Assumes that the most occurring letter in the (translated) message will be 'E', and whereby the key is found. Not sure why this calculation works - but it does ^_^.
-			        DecryptRotation(m, key);
-			        printf("Rotation Decrypted message: %s \n", m);
+			    else {                                               // Decryption (without a key)
+			        LetterFrequencyDistribution(m, lfdm);
+			        key = MOD((MostOccurringLetter(lfdm)-'E'), 26);  // Assumes that the most occurring letter in the (translated) message will be 'E', and whereby the key is found. Not sure why this calculation works - but it does ^_^.
+			        printf("\nThe Most occuring letter in the entered message is: %c \n", MostOccurringLetter(lfdm));
+			        printf("Based on the letter 'E' occuring most in the English language; we presume that \nthe letter 'E' was encrypted to '%c'. ", MostOccurringLetter(lfdm));
+			        printf("This implies an original encryptipon key of %d.\n\n", key);
+			        DecryptRotation(m, key, dm);
+			        printf("Rotation Decrypted message: %s \n", dm);
+			        
+			        // Question asking if this text is recognizable, if not, then assume 'E' is congruent to 2nd most occuring leter. 
+			        // Question to printf all possible combinations
 			    }
 			}
             
 			break;
-
-
-		//Substitution Cipher
+			
+			
+        //Substitution Cipher
 		case 2:
-			printf("\n\n|                    ~ SUBSTITUTION CIPHER ~                       |\n\n");
+			
+			
+			
 			break;
+			
 		default:
             break;
 
@@ -182,7 +221,7 @@ void List( char *a, int pn)                         // Used to list arrays out a
 	printf("\n");
 }
 
-void EncryptRotation(char *m, int key)              // Used to encrypt an array using the rotation cipher method with a key.
+void EncryptRotation(char *m, int key, char *em)    // Used to encrypt an array using the rotation cipher method with a key.
 {
     key = MOD(key,26);								// Used instead of key%26 to allow negative keys.
 	for(int i = 0; m[i] != '\0'; ++i){
@@ -196,11 +235,11 @@ void EncryptRotation(char *m, int key)              // Used to encrypt an array 
 		  }
     	}
 			
-		m[i] = letter;
+		em[i] = letter;
 	}
 }
 	
-void DecryptRotation(char *m, int key)              // Used to decrypt an array using the rotation cipher method with a key.
+void DecryptRotation(char *m, int key, char *dm)    // Used to decrypt an array using the rotation cipher method with a key.
 {
     key = 26-MOD(key,26);							// Used instead of key%26 to allow negative keys.
 	for(int i = 0; m[i] != '\0'; ++i){
@@ -214,7 +253,7 @@ void DecryptRotation(char *m, int key)              // Used to decrypt an array 
 		  }
 	    }
 			
-		m[i] = letter;
+		dm[i] = letter;
 	}
 }
 
