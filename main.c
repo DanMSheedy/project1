@@ -470,7 +470,7 @@ void EncryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *em) {
             if(m[j] == alphabet[i]) {               // Tests that letters match.
                 em[j] = SubstitutionKeyAlphabet[i]; // Sets corresponding element in em (encrypted message) to substituted letter.
             }
-            if(m[j] <= 'A' || m[j] >= 'Z') {
+            if(m[j] < 'A' || m[j] > 'Z') {
                 em[j] = m[j];                       // Maps characters (which are not letters) from the messege into the encrypted messege without alteration.
             }
             
@@ -487,7 +487,7 @@ void DecryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *dm) {
             if(m[j] == SubstitutionKeyAlphabet[i]) {// Tests that letters match.
                 dm[j] = alphabet[i];                // Sets corresponding element in dm (decrypted message) to corresponding alphabet letter.
             }
-            if(m[j] <= 'A' || m[j] >= 'Z') {
+            if(m[j] < 'A' || m[j] > 'Z') {
                 dm[j] = m[j];                       // Maps characters (which are not letters) from the messege into the encrypted messege without alteration.
             }
         }
