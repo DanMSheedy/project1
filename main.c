@@ -36,7 +36,7 @@ int main()
     printf("                 \u2023 2.   Substitution Cipher                    \n");
     
     // VARIABLES
-    char enterKey, menuInput[20], m[600], em[600], dm[600], EncryptionOrDecryption, EncryptionOrDecryption_Input[20], KeyOrNoKey, KeyOrNoKey_Input[20], SubstitutionKeyAlphabet[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+    char enterKey, menuInput[20], m[600], em[600], dm[600], EncryptionOrDecryption, EncryptionOrDecryption_Input[20], KeyOrNoKey, KeyOrNoKey_Input[20], SubstitutionKeyAlphabet[25];
 	int menuOption=0, continue_BelowMenu_Prompt=1, continue_EncryptionOrDecryption_Prompt=1, continue_KeyOrNoKey_Prompt=1, continue_Key_Prompt=1, key, lfdm[26] = {0};
 	// Note to self: Explain each variable?
 	
@@ -470,11 +470,12 @@ void EncryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *em) {
             if(m[j] == alphabet[i]) {               // Tests that letters match.
                 em[j] = SubstitutionKeyAlphabet[i]; // Sets corresponding element in em (encrypted message) to substituted letter.
             }
-            else {
+            if(m[j] <= 'A' || m[j] >= 'Z') {
                 em[j] = m[j];                       // Maps characters (which are not letters) from the messege into the encrypted messege without alteration.
             }
+            
         }
-    }  
+    }
 }
 
 
@@ -486,8 +487,8 @@ void DecryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *dm) {
             if(m[j] == SubstitutionKeyAlphabet[i]) {// Tests that letters match.
                 dm[j] = alphabet[i];                // Sets corresponding element in dm (decrypted message) to corresponding alphabet letter.
             }
-            else {
-                dm[j] = m[j];                       // Maps characters (which are not letters) from the messege into the decrypted messege without alteration.
+            if(m[j] <= 'A' || m[j] >= 'Z') {
+                dm[j] = m[j];                       // Maps characters (which are not letters) from the messege into the encrypted messege without alteration.
             }
         }
     }  
