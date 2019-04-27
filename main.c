@@ -149,19 +149,19 @@ int main()
                     break;
                 }
             }
-            //SubstitutionKeyAlphabet
-            //EDIT EVERYTHING BELOW
+            
             if (KeyOrNoKey == 'Y') {
                 SubstitutionCipher_Key_Prompt:
                 while(continue_Key_Prompt == 1) {
                     if (EncryptionOrDecryption =='D') {
-                        printf("             ### IMPORTANT!!! ###\n This cipher key needs to be the ORIGINAL KEY which was used to rotate the UNENCRYPTED message into the ENCRYPTED message!\n");
-                        printf(" Otherwise use this formula to find the complementary cipher key:  Original Key = 25 - Key \n");
+                        printf("             ### IMPORTANT!!! ###\n This substitution cipher key needs to be the ORIGINAL KEY which was used to map the UNENCRYPTED message into the ENCRYPTED message!\n");
+                    
                     }
-                        printf("Enter cipher key: \n");
+                        printf("You will need to enter the alphabet in it's order after substitution.\n");
+                        printf("Enter substitution key alphabet: \n");
                 
-                    if (scanf("%d%c", &key, &enterKey) !=2) {
-                        printf("\n*** Warning: Please enter an integer***\n");
+                    if (scanf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", &SubstitutionKeyAlphabet[0], &SubstitutionKeyAlphabet[1], &SubstitutionKeyAlphabet[2], &SubstitutionKeyAlphabet[3], &SubstitutionKeyAlphabet[4], &SubstitutionKeyAlphabet[5], &SubstitutionKeyAlphabet[6], &SubstitutionKeyAlphabet[7], &SubstitutionKeyAlphabet[8], &SubstitutionKeyAlphabet[9], &SubstitutionKeyAlphabet[10], &SubstitutionKeyAlphabet[11], &SubstitutionKeyAlphabet[12], &SubstitutionKeyAlphabet[13], &SubstitutionKeyAlphabet[14], &SubstitutionKeyAlphabet[15], &SubstitutionKeyAlphabet[16], &SubstitutionKeyAlphabet[17], &SubstitutionKeyAlphabet[18], &SubstitutionKeyAlphabet[19], &SubstitutionKeyAlphabet[20], &SubstitutionKeyAlphabet[21], &SubstitutionKeyAlphabet[22], &SubstitutionKeyAlphabet[23], &SubstitutionKeyAlphabet[24], &SubstitutionKeyAlphabet[25], &enterKey) !=27) {
+                        printf("\n*** Warning: Please enter a 26 letter characters in sequence (no spaces)***\n");
                         goto SubstitutionCipher_Key_Prompt;
                         }
                     else {
@@ -270,17 +270,23 @@ int main()
 	}
 	
 	// Temporary
-	printf("\n");
+	printf("\n\n\n \t META DATA \n      =============== \n \n");
     LetterFrequencyDistribution(m, lfdm);                            // m - input: message.
                                                                      // lfdm - output: letter frequency distribution of message.
    
+   printf("Frequency table: \n\n");
 	for (int i=0; i<26; i++) {                                       // Temporary ***
-			printf("%c : %d \n", alphabet[i], lfdm[i]);
+			printf("    %c : %d \n", alphabet[i], lfdm[i]);
 		}
 		
-	printf("\nMost occuring letter: %c", MostOccurringLetter(lfdm));  // Temporary ***
-	printf("\nSecond most occuring letter: %c", SecondMostOccurringLetter(lfdm));  // Temporary ***
-	printf("\nThird most occuring letter: %c", ThirdMostOccurringLetter(lfdm));  // Temporary ***
+	printf("\n Most occuring letter: %c", MostOccurringLetter(lfdm));  // Temporary ***
+	printf("\n Second most occuring letter: %c", SecondMostOccurringLetter(lfdm));  // Temporary ***
+	printf("\n Third most occuring letter: %c", ThirdMostOccurringLetter(lfdm));  // Temporary ***
+    
+    printf("\n\n Substitution key alphabet (if unused; just regular alphabet):\n ");
+    for (int i=0; i<26; i++) {                                       // Temporary ***
+			printf("%c", SubstitutionKeyAlphabet[i]);
+		}
     
     return 0;
 }
