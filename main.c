@@ -211,20 +211,29 @@ int main()
 			    }
 			    else {                                               // Decryption (without a key)
 			        LetterFrequencyDistribution(m, lfdm);
-			        key = MOD((MostOccurringLetter(lfdm)-'E'), 26);  // Assumes that the most occurring letter in the (translated) message will be 'E', and whereby the key is found. Not sure why this calculation works - but it does ^_^.
 			        printf("\nThe most occuring letter in the entered message is: %c \n", MostOccurringLetter(lfdm));
 			        printf("The second Most occuring letter in the entered message is: %c \n", SecondMostOccurringLetter(lfdm));
 			        printf("The third most occuring letter in the entered message is: %c \n", ThirdMostOccurringLetter(lfdm));
-			        printf("\nBased on the letter 'E' occuring most in the English language; we presume that \nthe letter 'E' was encrypted to '%c'. ", MostOccurringLetter(lfdm));
-			        printf("This implies an original encryptipon key of %d.\n\n", key);
+			        
+			        printf("\nThis algorithm will now output 3 possible translations based on the following principles:\n");
+			        
+			        key = MOD((MostOccurringLetter(lfdm)-'E'), 26);  // Assumes that the most occurring letter in the (translated) message will be 'E', and whereby the key is found.
+			        printf("\n1. \tBased on the letter 'E' occuring most in the English language; we first presume that \n \tthe letter 'E' was encrypted to the most occurring letter in the coded message: '%c'. ", MostOccurringLetter(lfdm));
+			        printf("\n \tThis implies an original encryptipon key of %d.\n", key);
 			        DecryptRotation(m, key, dm);
-			        printf("Rotation Decrypted message: \n %s \n", dm);
-			        printf("\nFrom the orginal message: \n %s \n", m);
+			        printf("\n \tRotation Decrypted message: \n \t\u2023 %s \n\n", dm);
 			        
-			        // Question asking if this text is recognizable, if not, then assume 'E' is congruent to 2nd most occuring leter. 
-			        // Question to printf all possible combinations
+			        key = MOD((SecondMostOccurringLetter(lfdm)-'E'), 26);  // Assumes that the second most occurring letter in the (translated) message will be 'E', and whereby the key is found.
+			        printf("\n2. \tBased on the letter 'E' occuring most in the English language; we secondly presume that \n \tthe letter 'E' was encrypted to the second most occurring letter in the coded message: '%c'. ", SecondMostOccurringLetter(lfdm));
+			        printf("\n \tThis implies an original encryptipon key of %d.\n", key);
+			        DecryptRotation(m, key, dm);
+			        printf("\n \tRotation Decrypted message: \n \t\u2023 %s \n\n", dm);
 			        
-			        
+			        key = MOD((ThirdMostOccurringLetter(lfdm)-'E'), 26);  // Assumes that the third most occurring letter in the (translated) message will be 'E', and whereby the key is found.
+			        printf("\n3. \tBased on the letter 'E' occuring most in the English language; we thirdly presume that \n \tthe letter 'E' was encrypted to the third most occurring letter in the coded message: '%c'. ", ThirdMostOccurringLetter(lfdm));
+			        printf("\n \tThis implies an original encryptipon key of %d.\n", key);
+			        DecryptRotation(m, key, dm);
+			        printf("\n \tRotation Decrypted message: \n \t\u2023 %s \n\n", dm);
 			        
 			    }
 			}
