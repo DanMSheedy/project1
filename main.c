@@ -172,6 +172,16 @@ int main()
                     else {
                         continue_Key_Prompt = 0;
                     }
+                    
+                    for(int i = 0; i < 26; ++i){
+                        char SubstitutedLetter = SubstitutionKeyAlphabet[i];
+    
+                        if(SubstitutedLetter >='a' && SubstitutedLetter <= 'z') {
+                            SubstitutedLetter = SubstitutedLetter - 32;        // Converts lowercase to uppercase.
+                            SubstitutionKeyAlphabet[i] = SubstitutedLetter;
+                        }
+                    }
+                    
                 }
             }
             break;
@@ -250,15 +260,18 @@ int main()
 		case 2:
 			
 			if (EncryptionOrDecryption =='E') {                      // Encryption (using a key)
-			    //stuff
+			    EncryptSubstitution(m, SubstitutionKeyAlphabet, em);
+			    printf("\n \tSubstitution encrypted message: \n \t\u2023 %s \n\n", em);
+			    
 		    }
 
             else {                                                   // Decryption
 			    if (KeyOrNoKey == 'Y') {                             // Decryption (using a key)
-			    //stuff
+                    DecryptSubstitution(m, SubstitutionKeyAlphabet, dm);
+                    printf("\n \tSubstitution decrypted message: \n \t\u2023 %s \n\n", dm);
 		        }
                 else {                                               // Decryption (without a key)
-                //stuff
+                //stuff ??? HELP
                 }
 
 
@@ -457,6 +470,9 @@ void EncryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *em) {
             if(m[j] == alphabet[i]) {               // Tests that letters match.
                 em[j] = SubstitutionKeyAlphabet[i]; // Sets corresponding element in em (encrypted message) to substituted letter.
             }
+            else {
+                em[j] = m[j];                       // Maps characters (which are not letters) from the messege into the encrypted messege without alteration.
+            }
         }
     }  
 }
@@ -469,6 +485,9 @@ void DecryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *dm) {
         for(int j = 0; m[j] != '\0'; ++j) {         // Runs through entire message scanning for the letter. Stops at end of messege.
             if(m[j] == SubstitutionKeyAlphabet[i]) {// Tests that letters match.
                 dm[j] = alphabet[i];                // Sets corresponding element in dm (decrypted message) to corresponding alphabet letter.
+            }
+            else {
+                dm[j] = m[j];                       // Maps characters (which are not letters) from the messege into the decrypted messege without alteration.
             }
         }
     }  
