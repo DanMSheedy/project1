@@ -402,6 +402,7 @@ char SecondMostOccurringLetter(int *lfdm) {
     int n = 0;                                      // Initialize counter to run through lfdm.
     
     int HF = 0;		                                // Highest Frequency (of all letters).
+	int L = 0;                                      // Position (in the alphabet) value of the letter with the HF.
 	
 	int SecondHF = 0;		                        // Second Highest Frequency (of all letters).
 	int SecondL = 0;	                            // Position (in the alphabet) value of the letter with the 2nd HF.
@@ -410,12 +411,13 @@ char SecondMostOccurringLetter(int *lfdm) {
 	for(n=0; n<26; n++) {                          
 		if (lfdm[n] > HF) {
 			HF = lfdm[n];
+			L = n;                                   // Set current letter to be the most occurring (so far).
 		}
 	}
 	
 	//Finds second most occurring letter's location point.
 	for(n=0; n<26; n++) {
-		if ((lfdm[n] > SecondHF) && !(lfdm[n] >= HF)) {
+		if (((lfdm[n] > SecondHF) && !(lfdm[n] >= HF)) || ((lfdm[n] == lfdm[L]) && (alphabet[n] != alphabet[L]))) {
 			SecondHF = lfdm[n];
 			SecondL = n;                            // Set current letter to be the most occurring (so far) - which is not the most occurring.
 		}
@@ -430,8 +432,10 @@ char ThirdMostOccurringLetter(int *lfdm) {
     int n = 0;                                      // Initialize counter to run through lfdm.
     
     int HF = 0;		                                // Highest Frequency (of all letters).
+	int L = 0;                                      // Position (in the alphabet) value of the letter with the HF.
 	
     int SecondHF = 0;		                        // Second Highest Frequency (of all letters).
+	int SecondL = 0;                                // Position (in the alphabet) value of the letter with the 2nd HF.
 	    
 	int ThirdHF = 0;		                        // Third Highest Frequency (of all letters).
 	int ThirdL = 0;	                                // Position (in the alphabet) value of the letter with the 3rd HF.
@@ -440,19 +444,21 @@ char ThirdMostOccurringLetter(int *lfdm) {
 	for(n=0; n<26; n++) {                          
 		if (lfdm[n] > HF) {
 			HF = lfdm[n];
+			L = n;                                  // Set current letter to be the most occurring (so far).
 		}
 	}
 	
 	//Finds second most occurring letter's location point.
 	for(n=0; n<26; n++) {
-		if ((lfdm[n] > SecondHF) && !(lfdm[n] >= HF)) {
+		if (((lfdm[n] > SecondHF) && !(lfdm[n] >= HF)) || ((lfdm[n] == lfdm[L]) && (alphabet[n] != alphabet[L]))) {
 			SecondHF = lfdm[n];
+			SecondL = n;                            // Set current letter to be the most occurring (so far) - which is not the most occurring. 
 		}
 	}
 	
 	//Finds Third Most Occurring letter's location point.
 	for(n=0; n<26; n++) {
-		if ((lfdm[n] > ThirdHF) && !(lfdm[n] >= SecondHF)) {
+		if (((lfdm[n] > ThirdHF) && !(lfdm[n] >= SecondHF)) || ((lfdm[n] == lfdm[SecondL]) && (alphabet[n] != alphabet[SecondL]) && (alphabet[n] != alphabet[L]))) {
 			ThirdHF = lfdm[n];
 			ThirdL = n;                             // Set current letter to be the most occurring (so far) - which is not the most, or second most, occurring.
 		}
