@@ -7,12 +7,17 @@
 //FUNCTION PROTOTYPES
 
 void List(char *a, int pn);                             // Used to list elements in an array: a is the array, pn is the number of elements to print (from [0]).
-void EncryptRotation(char *m,int key,char *em);         // Used to encrypt via rotation method, with a key: m is the message array, key is the encryption key, em is the output encrypted array.
-void DecryptRotation(char *m, int key,char *dm);        // Used to decrypt via rotation method, with a key: m is the message array, key is the encryption key. dm is the output decrypted array.
+
+void EncryptRotation(char *m, int key, char *em);       // Used to encrypt via rotation method, with a key: m is the message array, key is the encryption key, em is the output encrypted array.
+void DecryptRotation(char *m, int key, char *dm);       // Used to decrypt via rotation method, with a key: m is the message array, key is the encryption key. dm is the output decrypted array.
+
 void LetterFrequencyDistribution( char *m, int *lfdm);	// Used to list the frequencies of letters in message in a single string, lfdm. Array m is the message input, array lfdm is the destination output for the letter frequency distribution of the message.
 char MostOccurringLetter(int *lfdm);                    // Array lfdm is the letterFrequencyDistribution input, and function will output the char which has the highest frequency.
 char SecondMostOccurringLetter(int *lfdm);              // Array lfdm is the letterFrequencyDistribution input, and function will output the char which has the 2nd highest frequency.
 char ThirdMostOccurringLetter(int *lfdm);               // Array lfdm is the letterFrequencyDistribution input, and function will output the char which has the 3rd highest frequency.
+
+void EncryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *em);        // Used to encrypt via substitution method, with an alphabet key: m is the message array, SubstitutionKeyAlphabet is the encryption key, em is the output encrypted array.
+void DecryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *dm);        // Used to decrypt via substitution method, with an alphabet key: m is the message array, SubstitutionKeyAlphabet is the encryption key, dm is the output decrypted array.
 
 //OTHER DECLARATIONS (move to a #define statement?)
 
@@ -283,7 +288,7 @@ int main()
 	printf("\n Second most occuring letter: %c", SecondMostOccurringLetter(lfdm));  // Temporary ***
 	printf("\n Third most occuring letter: %c", ThirdMostOccurringLetter(lfdm));  // Temporary ***
     
-    printf("\n\n Substitution key alphabet (if unused; just regular alphabet):\n ");
+    printf("\n\n Substitution key alphabet (if unspecified; just regular alphabet):\n ");
     for (int i=0; i<26; i++) {                                       // Temporary ***
 			printf("%c", SubstitutionKeyAlphabet[i]);
 		}
@@ -294,8 +299,9 @@ int main()
 
 //FUNCTION DEFINITIONS
 
-void List( char *a, int pn)                         // Used to list arrays out as readable text.
-{
+// Used to list arrays out as readable text.
+void List( char *a, int pn) {
+
     for(int x=0; x<pn; x++)
     {
         printf("%c", *a);
@@ -304,8 +310,10 @@ void List( char *a, int pn)                         // Used to list arrays out a
 	printf("\n");
 }
 
-void EncryptRotation(char *m, int key, char *em)    // Used to encrypt an array using the rotation cipher method with a key.
-{
+
+// Used to encrypt an array using the rotation cipher method with a key.
+void EncryptRotation(char *m, int key, char *em) {
+
     key = MOD(key,26);								// Used instead of key%26 to allow negative keys.
 	for(int i = 0; m[i] != '\0'; ++i){
         char letter = m[i];
@@ -321,9 +329,11 @@ void EncryptRotation(char *m, int key, char *em)    // Used to encrypt an array 
 		em[i] = letter;
 	}
 }
-	
-void DecryptRotation(char *m, int key, char *dm)    // Used to decrypt an array using the rotation cipher method with a key.
-{
+
+
+// Used to decrypt an array using the rotation cipher method with a key.
+void DecryptRotation(char *m, int key, char *dm) {
+
     key = 26-MOD(key,26);							// Used instead of key%26 to allow negative keys.
 	for(int i = 0; m[i] != '\0'; ++i){
         char letter = m[i];
@@ -340,7 +350,9 @@ void DecryptRotation(char *m, int key, char *dm)    // Used to decrypt an array 
 	}
 }
 
-void LetterFrequencyDistribution( char *m, int *lfdm) {
+
+// Used to copy & transform an ordered alphabet array into a message's letter frequency array.
+void LetterFrequencyDistribution( char *m, int *lfdm) { 
     int n = 0;                                      // Initialize message character counter.
 	int i =0;                                       // Initialize alphabet letter counter.
 	
@@ -354,6 +366,8 @@ void LetterFrequencyDistribution( char *m, int *lfdm) {
 	}
 }
 
+
+// Finds most occuring letter in message.
 char MostOccurringLetter(int *lfdm) {
     int n = 0;                                      // Initialize counter to run through lfdm.
 	int HF = 0;		                                // Highest Frequency (of all letters).
@@ -369,6 +383,8 @@ char MostOccurringLetter(int *lfdm) {
 	return alphabet[L];
 }
 
+
+// Finds second most occuring letter in message.
 char SecondMostOccurringLetter(int *lfdm) {
     int n = 0;                                      // Initialize counter to run through lfdm.
     
@@ -395,6 +411,8 @@ char SecondMostOccurringLetter(int *lfdm) {
 	return alphabet[SecondL];
 }
 
+
+// Finds third most occuring letter in message.
 char ThirdMostOccurringLetter(int *lfdm) {
     int n = 0;                                      // Initialize counter to run through lfdm.
     
@@ -428,4 +446,30 @@ char ThirdMostOccurringLetter(int *lfdm) {
 	}
 	
 	return alphabet[ThirdL];
+}
+
+
+// Used to encrypt a message using the substitution cipher method with a key.
+void EncryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *em) {
+    
+    for(int i = 0; i < 26; ++i) {                   // Picks a letter in the alphabet.
+        for(int j = 0; m[j] != '\0'; ++j) {         // Runs through entire message scanning for the letter. Stops at end of messege.
+            if(m[j] == alphabet[i]) {               // Tests that letters match.
+                em[j] = SubstitutionKeyAlphabet[i]; // Sets corresponding element in em (encrypted message) to substituted letter.
+            }
+        }
+    }  
+}
+
+
+// Used to decrypt a message using the substitution cipher method with a key.
+void DecryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *dm) {
+    
+    for(int i = 0; i < 26; ++i) {                   // Picks a letter in the SubstitutionKeyAlphabet.
+        for(int j = 0; m[j] != '\0'; ++j) {         // Runs through entire message scanning for the letter. Stops at end of messege.
+            if(m[j] == SubstitutionKeyAlphabet[i]) {// Tests that letters match.
+                dm[j] = alphabet[i];                // Sets corresponding element in dm (decrypted message) to corresponding alphabet letter.
+            }
+        }
+    }  
 }
