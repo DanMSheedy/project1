@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <string.h>
 #define MOD(a,b) ((((a)%(b))+(b))%(b));	 //Useful because the % operator in C doesn't behave correctly with negative integers.
@@ -305,6 +306,15 @@ int main()
     for (int i=0; i<26; i++) {                                       // Temporary ***
 			printf("%c", SubstitutionKeyAlphabet[i]);
 		}
+		
+    printf("\n\n\n \t FILE I/O TESTING GROUNDS \n \t ======================== \n \n");
+    
+    FILE *input;
+char fn[256];
+scanf("%s", fn); // Read filename from user
+input = fopen(fn, "r");
+fclose(fn);
+    
     
     return 0;
 }
