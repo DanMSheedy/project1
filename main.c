@@ -267,7 +267,22 @@ int main()
                     printf("\n \tSubstitution decrypted message: \n \t\u2023 %s \n\n", dm);
 		        }
                 else {                                               // Decryption (without a key)
-                //stuff ??? HELP
+                    LetterFrequencyDistribution(m, lfdm);
+                    
+                    int counter = 0;
+                    while (m[counter] != '\0') {                    // To count to the end of the message.
+                        if(m[counter]==MostOccurringLetter(lfdm)) {
+                            m[counter] = 'E';                       // Sets most occurring letter to E.
+                        }
+                        else if(m[counter]==SecondMostOccurringLetter(lfdm)) {
+                            m[counter] = 'T';                       // Sets 2nd most occurring letter to T.
+                        }
+                        else if(m[counter]==SecondMostOccurringLetter(lfdm)) {
+                            m[counter] = 'A';                       // Sets 3rd most occurring letter to E.
+                        }
+                        counter++;                                        // Move along to the next character in the message.
+                    }
+                    printf("\n \tSubstitution decrypted message: \n \t\u2023 %s \n\n", m);
                 }
             }
 			break;
