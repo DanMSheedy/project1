@@ -1,0 +1,15 @@
+The input.txt file is purely added for the convenience of the marker. It allows to quickly enter
+input for the user-friendly menu system and message/key. Otherwise you can just use scanf as intended.
+
+***Be sure to have a custom run command whilst using this script:
+    
+    cd ${current.project.path} && gcc -Wall -O0 -g *.c -lm && ./a.out < input | head -n 100
+
+
+The format is as follows:
+-------------------------------------------------------------------------------
+<1/2>                               //Select cipher mode. 1 - Rotation. 2- Substitution.
+<E/D>                               //Select Encryption or Decryption
+<Y/N>                               //If the user wants to enter a key
+<KEY> <MESSEGE>                     //The key (an int or scrabled alphabet), followed by the message.
+-------------------------------------------------------------------------------

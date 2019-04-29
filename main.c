@@ -4,10 +4,7 @@
 #include <string.h>
 #define MOD(a,b) ((((a)%(b))+(b))%(b));	 //Useful because the % operator in C doesn't behave correctly with negative integers.
 
-
 //FUNCTION PROTOTYPES
-
-void List(char *a, int pn);                             // Used to list elements in an array: a is the array, pn is the number of elements to print (from [0]).
 
 void EncryptRotation(char *m, int key, char *em);       // Used to encrypt via rotation method, with a key: m is the message array, key is the encryption key, em is the output encrypted array.
 void DecryptRotation(char *m, int key, char *dm);       // Used to decrypt via rotation method, with a key: m is the message array, key is the encryption key. dm is the output decrypted array.
@@ -20,39 +17,37 @@ char ThirdMostOccurringLetter(int *lfdm);               // Array lfdm is the let
 void EncryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *em);        // Used to encrypt via substitution method, with an alphabet key: m is the message array, SubstitutionKeyAlphabet is the encryption key, em is the output encrypted array.
 void DecryptSubstitution(char *m, char *SubstitutionKeyAlphabet, char *dm);        // Used to decrypt via substitution method, with an alphabet key: m is the message array, SubstitutionKeyAlphabet is the encryption key, dm is the output decrypted array.
 
-//OTHER DECLARATIONS (move to a #define statement?)
+//OTHER DECLARATIONS
 
 static char alphabet[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
-
 
 //MAIN PRORGAM
 
 int main()
 {
-//    menu:   //Loop back to main menu
+    //VARIABLES
+    char enterKey, menuInput[20], m[600], em[600], dm[600], EncryptionOrDecryption, EncryptionOrDecryption_Input[20], KeyOrNoKey, KeyOrNoKey_Input[20], SubstitutionKeyAlphabet[25];
+	int menuOption=0, continue_BelowMenu_Prompt=1, continue_EncryptionOrDecryption_Prompt=1, continue_KeyOrNoKey_Prompt=1, continue_Key_Prompt=1, key, lfdm[26] = {0};
+    
+    //BODY
     printf("|    Welcome to Daniel Sheedy's Cyptographic Cipher Collection!    |\n");
     printf("|        ~ Submitted as an ENG1003 Programming Assignment ~        |\n\n");
     printf("                               MENU:                               \n\n");
     printf("                 \u2023 1.   Rotation Cipher                        \n");
     printf("                 \u2023 2.   Substitution Cipher                    \n");
     
-    // VARIABLES
-    char enterKey, menuInput[20], m[600], em[600], dm[600], EncryptionOrDecryption, EncryptionOrDecryption_Input[20], KeyOrNoKey, KeyOrNoKey_Input[20], SubstitutionKeyAlphabet[25];
-	int menuOption=0, continue_BelowMenu_Prompt=1, continue_EncryptionOrDecryption_Prompt=1, continue_KeyOrNoKey_Prompt=1, continue_Key_Prompt=1, key, lfdm[26] = {0};
-	// Note to self: Explain each variable?
-	
-	BelowMenu_Prompt:
+	BelowMenu_Prompt:                                                  //Cipher mode selection prompt looping system.
 	
 	while(continue_BelowMenu_Prompt == 1) {
 		printf("\nEnter an option: ");
 		fgets(menuInput, sizeof(menuInput), stdin);
-		sscanf(menuInput,"%d%c", &menuOption, &enterKey);
+		sscanf(menuInput,"%d%c", &menuOption, &enterKey);              //Ensures only 1 integer followed by the enter key is entered.
 		if ((menuOption==1 || menuOption==2) && (enterKey = '\n')) {
-			continue_BelowMenu_Prompt = 0;
+			continue_BelowMenu_Prompt = 0;                             //Closes loop.
 		}
 		else {
 			printf("\n*** Warning: Please enter an integer 1 or 2***\n");
-			goto BelowMenu_Prompt;
+			goto BelowMenu_Prompt;                                     //Back to start of loop (failed input)
 			break;
 		}
 	}
@@ -71,24 +66,24 @@ int main()
             break;
        }
     
-    EncryptingOrDecrypting_prompt:
+    EncryptingOrDecrypting_prompt:                                     //Encryption or decryption prompt looping system.
 			
 		while(continue_EncryptionOrDecryption_Prompt == 1) {
             printf("Are you encrypting or decrypting? <E,D>: \n");
             fgets(EncryptionOrDecryption_Input, sizeof(EncryptionOrDecryption_Input), stdin);
-            sscanf(EncryptionOrDecryption_Input,"%c%c", &EncryptionOrDecryption, &enterKey);
+            sscanf(EncryptionOrDecryption_Input,"%c%c", &EncryptionOrDecryption, &enterKey);    //Ensures only 1 character followed by the enter key is entered.
                 
             if ((EncryptionOrDecryption =='E' || EncryptionOrDecryption == 'D') && (enterKey = '\n')) {
-                 continue_EncryptionOrDecryption_Prompt = 0;
+                 continue_EncryptionOrDecryption_Prompt = 0;           //Closes loop
             }
             else {
                 printf("\n*** Warning: Please enter a character E or D***\n");
-                goto EncryptingOrDecrypting_prompt;
+                goto EncryptingOrDecrypting_prompt;                    //Back to start of loop (failed input)
                 break;
             }
         }
         
-    switch(menuOption) {
+    switch(menuOption) {                                               //Key prompt looping system.
 	    
 	    //Key Setup for RotationCipher
 	    case 1:
@@ -97,18 +92,18 @@ int main()
 			while(continue_KeyOrNoKey_Prompt == 1) {
                 printf("Are you using a rotation cipher key? <Y,N>: \n");
                 fgets(KeyOrNoKey_Input, sizeof(KeyOrNoKey_Input), stdin);
-                sscanf(KeyOrNoKey_Input,"%c%c", &KeyOrNoKey, &enterKey);
+                sscanf(KeyOrNoKey_Input,"%c%c", &KeyOrNoKey, &enterKey);        //Ensures only 1 character followed by the enter key is entered.
                 
                 if (EncryptionOrDecryption =='E' && KeyOrNoKey == 'N') {
                     printf("\n*** Warning: you are encrypting, you will need a cipher key!\n");
                     goto RotationCipher_KeyOrNoKey_prompt;
                 }
                 else if ((KeyOrNoKey =='Y' || KeyOrNoKey == 'N') && (enterKey = '\n')) {
-                    continue_KeyOrNoKey_Prompt = 0;
+                    continue_KeyOrNoKey_Prompt = 0;                             //Closes loop
                 }
                 else {
                     printf("\n*** Warning: Please enter a character Y or N***\n");
-                    goto RotationCipher_KeyOrNoKey_prompt;
+                    goto RotationCipher_KeyOrNoKey_prompt;                      //Back to start of loop (failed input)
                     break;
                 }
             }
@@ -124,10 +119,10 @@ int main()
                 
                     if (scanf("%d%c", &key, &enterKey) !=2) {
                         printf("\n*** Warning: Please enter an integer***\n");
-                        goto RotationCipher_Key_Prompt;
+                        goto RotationCipher_Key_Prompt;                         //Back to start of loop (failed input)
                         }
                     else {
-                        continue_Key_Prompt = 0;
+                        continue_Key_Prompt = 0;                                //Closes loop
                     }
                 }
             }
@@ -140,14 +135,14 @@ int main()
 			while(continue_KeyOrNoKey_Prompt == 1) {
                 printf("Are you using a substitution cipher alphabet key? <Y,N>: \n");
                 fgets(KeyOrNoKey_Input, sizeof(KeyOrNoKey_Input), stdin);
-                sscanf(KeyOrNoKey_Input,"%c%c", &KeyOrNoKey, &enterKey);
+                sscanf(KeyOrNoKey_Input,"%c%c", &KeyOrNoKey, &enterKey);        //Ensures only 1 character followed by the enter key is entered.
                 
                 if (EncryptionOrDecryption =='E' && KeyOrNoKey == 'N') {
                     printf("\n*** Warning: you are encrypting, you will need a cipher key!\n");
-                    goto SubstitutionCipher_KeyOrNoKey_prompt;
+                    goto SubstitutionCipher_KeyOrNoKey_prompt;                  //Back to start of loop (failed input)
                 }
                 else if ((KeyOrNoKey =='Y' || KeyOrNoKey == 'N') && (enterKey = '\n')) {
-                    continue_KeyOrNoKey_Prompt = 0;
+                    continue_KeyOrNoKey_Prompt = 0;                             //Closes loop
                 }
                 else {
                     printf("\n*** Warning: Please enter a character Y or N***\n");
@@ -165,20 +160,20 @@ int main()
                     }
                         printf("You will need to enter the alphabet in it's order after substitution.\n");
                         printf("Enter substitution key alphabet: \n");
-                
+                    //Below ensures that 26 characters are entered and then followed by the enter key - otherwise the if statement fails.
                     if (scanf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", &SubstitutionKeyAlphabet[0], &SubstitutionKeyAlphabet[1], &SubstitutionKeyAlphabet[2], &SubstitutionKeyAlphabet[3], &SubstitutionKeyAlphabet[4], &SubstitutionKeyAlphabet[5], &SubstitutionKeyAlphabet[6], &SubstitutionKeyAlphabet[7], &SubstitutionKeyAlphabet[8], &SubstitutionKeyAlphabet[9], &SubstitutionKeyAlphabet[10], &SubstitutionKeyAlphabet[11], &SubstitutionKeyAlphabet[12], &SubstitutionKeyAlphabet[13], &SubstitutionKeyAlphabet[14], &SubstitutionKeyAlphabet[15], &SubstitutionKeyAlphabet[16], &SubstitutionKeyAlphabet[17], &SubstitutionKeyAlphabet[18], &SubstitutionKeyAlphabet[19], &SubstitutionKeyAlphabet[20], &SubstitutionKeyAlphabet[21], &SubstitutionKeyAlphabet[22], &SubstitutionKeyAlphabet[23], &SubstitutionKeyAlphabet[24], &SubstitutionKeyAlphabet[25], &enterKey) !=27) {
                         printf("\n*** Warning: Please enter a 26 letter characters in sequence (no spaces)***\n");
-                        goto SubstitutionCipher_Key_Prompt;
+                        goto SubstitutionCipher_Key_Prompt;                    //Back to start of loop (failed input)
                         }
                     else {
-                        continue_Key_Prompt = 0;
+                        continue_Key_Prompt = 0;                               //Closes loop
                     }
                     
-                    for(int i = 0; i < 26; ++i){
+                    for(int i = 0; i < 26; ++i){                               //Converts entered key from lowercase to uppercase.
                         char SubstitutedLetter = SubstitutionKeyAlphabet[i];
     
                         if(SubstitutedLetter >='a' && SubstitutedLetter <= 'z') {
-                            SubstitutedLetter = SubstitutedLetter - 32;        // Converts lowercase to uppercase.
+                            SubstitutedLetter = SubstitutedLetter - 32;        
                             SubstitutionKeyAlphabet[i] = SubstitutedLetter;
                         }
                     }
@@ -191,15 +186,15 @@ int main()
             break;
     }
 	
-	printf("Enter a message to ");
+	printf("Enter a message to ");                                   // Entering message to be encrypted/decrypted.
 	if(EncryptionOrDecryption=='E') {
 	    printf("encrypt: \n");
 	}
 	else {
 	    printf("decrypt: \n");
 	}
-    fgets(m, sizeof(m)/sizeof(char), stdin);
-		for(int i = 0; m[i] != '\0'; ++i){
+    fgets(m, sizeof(m)/sizeof(char), stdin);                         // Sets size of message and takes input message together.
+		for(int i = 0; m[i] != '\0'; ++i){                           // Loops until end of array is reached.
             char letter = m[i];
     
             if(letter >='a' && letter <= 'z') {
@@ -208,7 +203,7 @@ int main()
             m[i] = letter;
         }
 	
-	switch(menuOption) {
+	switch(menuOption) {                                             // Performs main output for program.
 	    
 	    //Rotation Cipher
 		case 1:
@@ -274,12 +269,7 @@ int main()
                 else {                                               // Decryption (without a key)
                 //stuff ??? HELP
                 }
-
-
-	      }
-
-
-			
+            }
 			break;
 			
 		default:
@@ -288,51 +278,30 @@ int main()
 
 	}
 	
-	// Temporary
+/*	//Information for debugging
 	printf("\n\n\n \t META DATA \n      =============== \n \n");
-    LetterFrequencyDistribution(m, lfdm);                            // m - input: message.
-                                                                     // lfdm - output: letter frequency distribution of message.
+    LetterFrequencyDistribution(m, lfdm);                                              // m - input: message.
+                                                                                       // lfdm - output: letter frequency distribution of message.
    
    printf("Frequency table: \n\n");
-	for (int i=0; i<26; i++) {                                       // Temporary ***
+	for (int i=0; i<26; i++) {                                                         // Temporary ***
 			printf("    %c : %d \n", alphabet[i], lfdm[i]);
 		}
 		
-	printf("\n Most occuring letter: %c", MostOccurringLetter(lfdm));  // Temporary ***
-	printf("\n Second most occuring letter: %c", SecondMostOccurringLetter(lfdm));  // Temporary ***
-	printf("\n Third most occuring letter: %c", ThirdMostOccurringLetter(lfdm));  // Temporary ***
+	printf("\n Most occuring letter: %c", MostOccurringLetter(lfdm));                  // Temporary ***
+	printf("\n Second most occuring letter: %c", SecondMostOccurringLetter(lfdm));     // Temporary ***
+	printf("\n Third most occuring letter: %c", ThirdMostOccurringLetter(lfdm));       // Temporary ***
     
     printf("\n\n Substitution key alphabet (if unspecified; just regular alphabet):\n ");
-    for (int i=0; i<26; i++) {                                       // Temporary ***
+    for (int i=0; i<26; i++) {                                                         // Temporary ***
 			printf("%c", SubstitutionKeyAlphabet[i]);
 		}
-		
-    printf("\n\n\n \t FILE I/O TESTING GROUNDS \n \t ======================== \n \n");
-    
-    FILE *input;
-char fn[256];
-scanf("%s", fn); // Read filename from user
-input = fopen(fn, "r");
-fclose(fn);
-    
-    
+*/
     return 0;
 }
 
 
 //FUNCTION DEFINITIONS
-
-// Used to list arrays out as readable text.
-void List( char *a, int pn) {
-
-    for(int x=0; x<pn; x++)
-    {
-        printf("%c", *a);
-        a++;
-    }
-	printf("\n");
-}
-
 
 // Used to encrypt an array using the rotation cipher method with a key.
 void EncryptRotation(char *m, int key, char *em) {
